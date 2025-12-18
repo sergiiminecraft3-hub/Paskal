@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Переміщення об'єктів</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            background: #f0f0f0;
+        }
+
+        .draggable {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            cursor: grab;
+            user-select: none;
+            border-radius: 10px;
+        }
+
+        #obj1 {
+            background-color: #ff6666;
+            top: 50px;
+            left: 50px;
+        }
+
+        #obj2 {
+            background-color: #66ff66;
+            top: 50px;
+            left: 200px;
+        }
+
+        #obj3 {
+            background-color: #6666ff;
+            top: 50px;
+            left: 350px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="obj1" class="draggable"></div>
+    <div id="obj2" class="draggable"></div>
+    <div id="obj3" class="draggable"></div>
+
+    <script>
+        const draggables = document.querySelectorAll('.draggable');
+
+        draggables.forEach(elem => {
+            let offsetX = 0, offsetY = 0, isDragging = false;
+
+            elem.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                offsetX = e.clientX - elem.offsetLeft;
+                offsetY = e.clientY - elem.offsetTop;
+                elem.style.cursor = 'grabbing';
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                let x = e.clientX - offsetX;
+                let y = e.clientY - offsetY;
+
+                // Обмеження по вікну браузера
+                x = Math.max(0, Math.min(window.innerWidth - elem.offsetWidth, x));
+                y = Math.max(0, Math.min(window.innerHeight - elem.offsetHeight, y));
+
+                elem.style.left = x + 'px';
+                elem.style.top = y + 'px';
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    elem.style.cursor = 'grab';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
