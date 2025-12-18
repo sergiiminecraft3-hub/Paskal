@@ -1,0 +1,26 @@
+﻿program AvgMainDiagonalRandom;
+uses crt;
+var
+  A: array[1..10, 1..10] of integer;
+  n, i, j: integer;
+  sum: integer;
+  avg: real;
+
+begin
+  randomize;
+  sum := 0;
+
+  readln(n);
+
+  { Генерація масиву }
+  for i := 1 to n do
+    for j := 1 to n do
+      A[i, j] := random(201) - 100;
+
+  for i := 1 to n do
+    sum := sum + A[i, i];
+
+  avg := sum / n;
+
+  writeln(avg);
+end.
